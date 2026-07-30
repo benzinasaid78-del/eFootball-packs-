@@ -762,12 +762,12 @@
         packs = snap.data().packs;
       } else {
         packs = defaultPacks;
-        await savePacks();
+        // فقط المالك المسجّل دخوله يقدر ينشئ المستند الأول؛ الزائر العادي ما تسمح له القواعد بالكتابة
+        if(auth.currentUser) await savePacks();
       }
     } catch(e){
       console.error(e);
       packs = defaultPacks;
-      showToast('تعذّر الاتصال بقاعدة البيانات، تحقق من إعدادات Firebase');
     }
     render();
 
@@ -778,7 +778,7 @@
         packs = snap.data().packs;
         render();
       }
-    });
+    }, (err) => console.error(err));
   }
 
   async function savePacks(){
@@ -798,7 +798,7 @@
     try{
       const snap = await TEXTS_DOC.get();
       siteTexts = snap.exists ? { ...defaultTexts, ...snap.data() } : { ...defaultTexts };
-      if(!snap.exists) await saveTextsToStorage();
+      if(!snap.exists && auth.currentUser) await saveTextsToStorage();
     } catch(e){
       console.error(e);
       siteTexts = { ...defaultTexts };
@@ -811,7 +811,7 @@
         siteTexts = { ...defaultTexts, ...snap.data() };
         applyTexts();
       }
-    });
+    }, (err) => console.error(err));
   }
 
   async function saveTextsToStorage(){
@@ -996,8 +996,17 @@
   });
 
   // مصدر الحقيقة الوحيد لوضع الإدارة: جلسة Firebase Auth فعلية (تفضل مفعّلة حتى بعد إغلاق المتصفح)
-  auth.onAuthStateChanged((user) => {
+  auth.onAuthStateChanged(async (user) => {
     setAdminMode(!!user);
+    // كلما كان المالك مسجّل دخوله، نتأكد إن مستندات الباكجات/النصوص موجودة (ننشئها إذا ناقصة فقط)
+    if(user){
+      try{
+        const packsSnap = await PACKS_DOC.get();
+        if(!packsSnap.exists) await savePacks();
+        const textsSnap = await TEXTS_DOC.get();
+        if(!textsSnap.exists) await saveTextsToStorage();
+      } catch(e){ console.error(e); }
+    }
   });
 
   function placeholderSVG(){
