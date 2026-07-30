@@ -1,0 +1,1385 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الباكجات</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy-950:#050912;
+    --navy-900:#0a1330;
+    --navy-800:#0e1b45;
+    --blue-700:#0b3d91;
+    --blue-500:#1e63d6;
+    --cyan-400:#3fd0ff;
+    --yellow-400:#ffd400;
+    --yellow-300:#ffe25c;
+    --white:#f5f7ff;
+    --grey-400:#8b93b3;
+    --danger:#ff5470;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background: radial-gradient(ellipse at top, #0d1a3f 0%, var(--navy-950) 55%);
+    color: var(--white);
+    font-family:'Tajawal', sans-serif;
+    min-height:100vh;
+    padding-bottom:60px;
+  }
+  .eyebrow{
+    font-family:'Rajdhani', sans-serif;
+    letter-spacing:.35em;
+    font-size:11px;
+    color: var(--cyan-400);
+    text-transform:uppercase;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    overflow:hidden;
+    padding:54px 20px 70px;
+    background:
+      linear-gradient(160deg, rgba(11,61,145,.55) 0%, transparent 45%),
+      linear-gradient(200deg, rgba(255,212,0,.10) 0%, transparent 40%),
+      var(--navy-950);
+    border-bottom:1px solid rgba(63,208,255,.15);
+  }
+  .hero::before{
+    content:"";
+    position:absolute; inset:0;
+    background:
+      repeating-linear-gradient(115deg, rgba(255,212,0,.05) 0 2px, transparent 2px 90px),
+      repeating-linear-gradient(65deg, rgba(63,208,255,.05) 0 2px, transparent 2px 120px);
+    pointer-events:none;
+  }
+  .hero-inner{position:relative; max-width:920px; margin:0 auto; text-align:center;}
+  .hero-logo{
+    display:inline-flex; align-items:center; gap:10px;
+    font-family:'Rajdhani', sans-serif;
+    font-weight:700; font-size:14px; letter-spacing:.3em;
+    color: var(--grey-400); margin-bottom:22px;
+  }
+  .hero-logo span.dot{width:6px; height:6px; border-radius:50%; background: var(--yellow-400); box-shadow:0 0 10px var(--yellow-400);}
+  .hero h1{
+    font-size:clamp(34px, 7vw, 58px);
+    font-weight:900;
+    line-height:1.15;
+    background: linear-gradient(95deg, var(--white) 20%, var(--yellow-300) 55%, var(--cyan-400) 90%);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+    text-shadow: 0 0 40px rgba(63,208,255,.25);
+  }
+  .hero p.sub{
+    margin-top:16px; color: var(--grey-400); font-size:16px;
+    max-width:520px; margin-inline:auto; line-height:1.9;
+  }
+  .hero-tag{
+    display:inline-block; margin-top:24px; padding:8px 20px;
+    border:1px solid rgba(255,212,0,.4); border-radius:999px;
+    font-family:'Rajdhani', sans-serif; font-weight:600; font-size:13px;
+    color: var(--yellow-300); background: rgba(255,212,0,.06);
+    letter-spacing:.05em;
+  }
+
+  /* ---------- SECTION HEADER ---------- */
+  .packs-section{max-width:1180px; margin:0 auto; padding:50px 20px 0;}
+  .section-header{
+    display:flex; align-items:center; justify-content:space-between; gap:16px;
+    margin-bottom:30px; flex-wrap:wrap;
+  }
+  .section-header h2{
+    font-size:clamp(24px, 4vw, 32px); font-weight:900;
+    position:relative; padding-inline-start:16px;
+  }
+  .section-header h2::before{
+    content:""; position:absolute; inset-inline-start:0; top:6px; bottom:6px;
+    width:5px; border-radius:4px;
+    background: linear-gradient(180deg, var(--yellow-400), var(--cyan-400));
+  }
+  .btn{
+    font-family:'Tajawal', sans-serif; font-weight:700; font-size:14px;
+    border:none; cursor:pointer; border-radius:10px; padding:12px 20px;
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .btn:active{transform: scale(.97);}
+  .btn-primary{
+    background: linear-gradient(95deg, var(--yellow-400), var(--yellow-300));
+    color:#111; box-shadow: 0 6px 20px rgba(255,212,0,.25);
+  }
+  .btn-primary:hover{box-shadow:0 8px 26px rgba(255,212,0,.4);}
+  .btn-ghost{
+    background: rgba(255,255,255,.06); color: var(--white);
+    border:1px solid rgba(255,255,255,.14);
+  }
+  .btn-ghost:hover{background: rgba(255,255,255,.12);}
+  .btn-danger{background: rgba(255,84,112,.12); color: var(--danger); border:1px solid rgba(255,84,112,.35);}
+
+  /* ---------- GRID / CARDS ---------- */
+  .packs-grid{
+    display:grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap:22px;
+  }
+  .pack-card{
+    position:relative;
+    border-radius:18px;
+    background: linear-gradient(155deg, var(--navy-800) 0%, var(--navy-900) 100%);
+    border:1px solid rgba(63,208,255,.14);
+    overflow:hidden;
+    display:flex; flex-direction:column;
+  }
+  .pack-card::after{
+    content:""; position:absolute; inset:0; border-radius:18px;
+    padding:1px;
+    background: linear-gradient(140deg, rgba(255,212,0,.5), transparent 30%, rgba(63,208,255,.4) 80%);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude;
+    pointer-events:none; opacity:.6;
+  }
+  .pack-media{
+    position:relative; aspect-ratio: 4/3; overflow:hidden;
+    background: radial-gradient(circle at 30% 20%, rgba(63,208,255,.18), transparent 60%),
+                radial-gradient(circle at 80% 80%, rgba(255,212,0,.14), transparent 55%),
+                var(--navy-950);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .pack-media img{width:100%; height:100%; object-fit:cover; display:block;}
+  .pack-media .placeholder{
+    display:flex; flex-direction:column; align-items:center; gap:8px;
+    color: var(--grey-400); font-family:'Rajdhani', sans-serif;
+    font-size:13px; letter-spacing:.15em; text-transform:uppercase;
+  }
+  .pack-media .placeholder svg{opacity:.5;}
+  .pack-media::before{
+    content:""; position:absolute; inset:0;
+    background: linear-gradient(180deg, transparent 55%, rgba(5,9,18,.85) 100%);
+    pointer-events:none;
+  }
+  .pack-shine{
+    position:absolute; top:0; bottom:0; width:40%;
+    background: linear-gradient(100deg, transparent, rgba(255,255,255,.16), transparent);
+    transform: translateX(-160%) skewX(-12deg);
+    transition: transform .7s ease;
+    pointer-events:none;
+  }
+  .pack-card:hover .pack-shine{ transform: translateX(280%) skewX(-12deg); }
+
+  .pack-body{padding:18px 18px 20px; display:flex; flex-direction:column; gap:6px; flex:1;}
+  .pack-name{font-size:18px; font-weight:900;}
+  .pack-desc{font-size:13px; color: var(--grey-400); line-height:1.7; min-height:20px;}
+  .pack-actions{display:flex; gap:8px; margin-top:14px;}
+  .pack-actions .btn{padding:9px 14px; font-size:12.5px; flex:1;}
+
+  .empty-state{
+    grid-column:1/-1; text-align:center; padding:60px 20px; color: var(--grey-400);
+    border:1px dashed rgba(255,255,255,.14); border-radius:16px;
+  }
+
+  /* ---------- MODAL ---------- */
+  .modal-overlay{
+    position:fixed; inset:0; background: rgba(3,6,14,.72); backdrop-filter: blur(4px);
+    display:flex; align-items:flex-end; justify-content:center; z-index:50;
+    opacity:0; pointer-events:none; transition:opacity .2s ease;
+  }
+  .modal-overlay.open{opacity:1; pointer-events:auto;}
+  @media(min-width:640px){ .modal-overlay{align-items:center;} }
+  .modal{
+    background: var(--navy-800); width:100%; max-width:460px;
+    border-radius:20px 20px 0 0; padding:26px 22px 30px;
+    border:1px solid rgba(63,208,255,.2);
+    transform: translateY(30px); transition: transform .25s ease;
+    max-height:88vh; overflow-y:auto;
+  }
+  @media(min-width:640px){ .modal{border-radius:20px;} }
+  .modal-overlay.open .modal{transform: translateY(0);}
+  .modal h3{font-size:19px; font-weight:900; margin-bottom:18px;}
+  .field{margin-bottom:16px;}
+  .field label{display:block; font-size:12.5px; color: var(--grey-400); margin-bottom:7px; font-weight:700;}
+  .field input[type="text"]{
+    width:100%; padding:12px 14px; border-radius:10px; border:1px solid rgba(255,255,255,.14);
+    background: rgba(255,255,255,.04); color: var(--white); font-family:'Tajawal',sans-serif; font-size:14px;
+  }
+  .field input[type="text"]:focus{outline:none; border-color: var(--cyan-400);}
+  .upload-zone{
+    border:1.5px dashed rgba(255,255,255,.2); border-radius:12px; padding:16px;
+    text-align:center; cursor:pointer; transition: border-color .15s;
+    background: rgba(255,255,255,.02);
+  }
+  .upload-zone:hover{border-color: var(--cyan-400);}
+  .upload-zone input{display:none;}
+  .upload-zone .hint{font-size:12px; color: var(--grey-400); margin-top:6px;}
+  .preview-wrap{margin-top:12px; border-radius:10px; overflow:hidden; aspect-ratio:4/3; background:var(--navy-950); display:none;}
+  .preview-wrap.show{display:block;}
+  .preview-wrap img{width:100%; height:100%; object-fit:cover;}
+  .modal-actions{display:flex; gap:10px; margin-top:22px;}
+  .modal-actions .btn{flex:1;}
+
+  .toast{
+    position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(20px);
+    background: var(--navy-800); border:1px solid rgba(63,208,255,.3);
+    padding:12px 22px; border-radius:12px; font-size:13.5px; font-weight:700;
+    opacity:0; transition: all .25s ease; z-index:60; pointer-events:none;
+  }
+  .toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
+
+  .hidden{display:none !important;}
+
+  .gallery-title-wrap{display:inline-flex; user-select:none; -webkit-user-select:none;}
+  .gallery-title-wrap h1{cursor:default;}
+
+  .admin-bar{
+    max-width:1180px; margin:0 auto; padding:14px 20px 0;
+    display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap;
+  }
+  .admin-pill{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:'Rajdhani', sans-serif; font-weight:700; font-size:13px; letter-spacing:.05em;
+    color:#7CFFB2; background: rgba(60,255,150,.08); border:1px solid rgba(60,255,150,.35);
+    padding:7px 14px; border-radius:999px;
+  }
+  .admin-pill .dot2{width:7px; height:7px; border-radius:50%; background:#3cff96; box-shadow:0 0 8px #3cff96;}
+  .admin-links{display:flex; gap:8px; flex-wrap:wrap;}
+  .admin-links .btn{padding:8px 14px; font-size:12.5px;}
+
+  .field input[type="password"]{
+    width:100%; padding:12px 14px; border-radius:10px; border:1px solid rgba(255,255,255,.14);
+    background: rgba(255,255,255,.04); color: var(--white); font-family:'Tajawal',sans-serif; font-size:16px;
+    letter-spacing:.3em; text-align:center;
+  }
+  .field input[type="password"]:focus{outline:none; border-color: var(--cyan-400);}
+  .field .hint-small{font-size:11.5px; color: var(--grey-400); margin-top:6px;}
+  .pw-error{color: var(--danger); font-size:12.5px; margin-top:8px; display:none;}
+  .pw-error.show{display:block;}
+
+  .coins-modal{text-align:center;}
+  .coins-icon{font-size:40px; margin-bottom:10px;}
+  .coins-modal h3{margin-bottom:4px;}
+  .coins-question{color: var(--grey-400); font-size:14px; margin-bottom:16px;}
+  .coins-modal .field input{text-align:center; font-size:16px;}
+  .coins-result{
+    margin-top:6px; padding:12px 14px; border-radius:10px; font-size:13.5px; font-weight:700;
+    line-height:1.7;
+  }
+  .coins-result.ok{background: rgba(60,255,150,.1); border:1px solid rgba(60,255,150,.35); color:#7CFFB2;}
+  .coins-result.no{background: rgba(255,84,112,.1); border:1px solid rgba(255,84,112,.35); color: var(--danger);}
+  .coins-result.info{background: rgba(63,208,255,.1); border:1px solid rgba(63,208,255,.35); color: var(--cyan-400);}
+  .pack-card{cursor:pointer;}
+
+  /* ---------- CHANCE METER ---------- */
+  .chance-wrap{
+    margin-top:18px; display:flex; flex-direction:column; align-items:center; gap:14px;
+    animation: chanceIn .35s ease;
+  }
+  @keyframes chanceIn{ from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:translateY(0);} }
+  .chance-ring{position:relative; width:150px; height:150px;}
+  .chance-ring svg{width:100%; height:100%; transform:rotate(-90deg);}
+  .chance-ring circle{fill:none; stroke-width:10; stroke-linecap:round;}
+  .chance-bg{stroke: rgba(255,255,255,.08);}
+  .chance-fg{
+    stroke: var(--danger);
+    stroke-dasharray: 326.7;
+    stroke-dashoffset: 326.7;
+    transition: stroke-dashoffset 1s cubic-bezier(.22,1,.36,1), stroke 1s ease;
+    filter: drop-shadow(0 0 6px currentColor);
+  }
+  .chance-fg.mid{stroke: var(--yellow-400);}
+  .chance-fg.high{stroke:#3cff96;}
+  .chance-percent{
+    position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+    flex-direction:column; gap:2px;
+  }
+  .chance-percent .num{font-family:'Rajdhani', sans-serif; font-size:32px; font-weight:700; line-height:1;}
+  .chance-percent .lbl{font-size:10.5px; color: var(--grey-400); letter-spacing:.1em;}
+  .chance-msg{
+    text-align:center; font-size:13.5px; font-weight:700; line-height:1.8;
+    padding:10px 16px; border-radius:12px; max-width:340px;
+  }
+  .chance-msg.low{background: rgba(255,84,112,.1); border:1px solid rgba(255,84,112,.3); color: var(--danger);}
+  .chance-msg.mid{background: rgba(255,212,0,.08); border:1px solid rgba(255,212,0,.3); color: var(--yellow-300);}
+  .chance-msg.high{background: rgba(60,255,150,.1); border:1px solid rgba(60,255,150,.35); color:#7CFFB2;}
+  .chance-detail{font-size:11.5px; color: var(--grey-400); text-align:center; margin-top:-4px;}
+
+  /* ---------- LEAK (الثغرة) ---------- */
+  .leak-btn{
+    width:100%; margin-top:4px;
+    display:flex; align-items:center; justify-content:center; gap:8px;
+    background: linear-gradient(95deg, var(--cyan-400), #7cf0ff);
+    color:#04202b; box-shadow: 0 6px 20px rgba(63,208,255,.3);
+  }
+  .leak-btn:hover{box-shadow:0 8px 26px rgba(63,208,255,.45);}
+  .leak-modal{max-width:560px; text-align:right;}
+  .leak-modal h3{text-align:center;}
+  .leak-cards-grid{
+    display:grid; grid-template-columns:repeat(auto-fill, minmax(92px,1fr));
+    gap:26px 16px; margin:18px 0;
+  }
+  .leak-card-wrap{
+    display:flex; flex-direction:column; align-items:center; gap:8px;
+  }
+  .leak-card{
+    position:relative; border-radius:12px; overflow:hidden; aspect-ratio:3/4;
+    background: var(--navy-950); border:1px solid rgba(63,208,255,.2);
+    width:100%;
+  }
+  .leak-card img{width:100%; height:100%; object-fit:cover; display:block;}
+  .leak-card .leak-card-del{
+    position:absolute; top:6px; left:6px; width:24px; height:24px; border-radius:50%;
+    background: rgba(255,84,112,.9); color:#fff; border:none; font-size:15px; line-height:1;
+    cursor:pointer; display:flex; align-items:center; justify-content:center;
+  }
+  .leak-press-badge{
+    width:52px; height:52px; border-radius:50%; flex-shrink:0;
+    display:flex; align-items:center; justify-content:center; text-align:center;
+    background: linear-gradient(135deg, var(--cyan-400), #7cf0ff);
+    color:#04202b; font-size:11px; font-weight:800; line-height:1.15;
+    padding:4px; box-shadow:0 4px 14px rgba(63,208,255,.35);
+    word-break:break-word;
+  }
+  .leak-press-input{
+    width:52px; height:52px; border-radius:50%; flex-shrink:0;
+    text-align:center; font-family:'Tajawal',sans-serif; font-size:10.5px; font-weight:700;
+    color: var(--white); background: rgba(255,255,255,.06);
+    border:1.5px dashed rgba(63,208,255,.5); padding:2px;
+  }
+  .leak-press-input:focus{outline:none; border-style:solid; border-color: var(--cyan-400);}
+  .leak-press-input::placeholder{color: var(--grey-400); font-size:9.5px;}
+  .leak-empty{
+    grid-column:1/-1; text-align:center; padding:34px 10px; color: var(--grey-400);
+    font-size:13px; border:1px dashed rgba(255,255,255,.14); border-radius:14px;
+  }
+  #addLeakCardBtn{width:100%; margin-bottom:16px;}
+  .leak-desc-wrap{margin-top:4px;}
+  .leak-desc-view{font-size:13.5px; color: var(--grey-400); line-height:1.9; white-space:pre-wrap;}
+  .leak-desc-edit{
+    width:100%; min-height:100px; padding:12px 14px; border-radius:10px;
+    border:1px solid rgba(255,255,255,.14); background: rgba(255,255,255,.04);
+    color: var(--white); font-family:'Tajawal',sans-serif; font-size:13.5px;
+    resize:vertical; margin-bottom:10px; line-height:1.7;
+  }
+  .leak-desc-edit:focus{outline:none; border-color: var(--cyan-400);}
+
+  /* ---------- LEAK MODAL: FULL SCREEN PAGE ---------- */
+  #leakModalOverlay{
+    align-items:stretch; justify-content:stretch; backdrop-filter:none; background:var(--navy-950);
+  }
+  #leakModalOverlay .leak-modal{
+    max-width:none; width:100%; height:100%; max-height:none;
+    border-radius:0; padding:0; margin:0; border:none;
+    display:flex; flex-direction:column;
+    transform:translateX(30px); transition: transform .25s ease;
+    overflow:hidden;
+  }
+  #leakModalOverlay.open .leak-modal{transform:translateX(0);}
+  .leak-topbar{
+    position:sticky; top:0; z-index:2; display:flex; align-items:center; gap:14px;
+    padding:16px 18px; background: var(--navy-800);
+    border-bottom:1px solid rgba(63,208,255,.14); flex-shrink:0;
+  }
+  .leak-topbar h3{margin:0; font-size:17px; flex:1;}
+  .leak-back-btn{
+    width:38px; height:38px; border-radius:50%; flex-shrink:0;
+    border:1px solid rgba(255,255,255,.14); background: rgba(255,255,255,.06);
+    color: var(--white); display:flex; align-items:center; justify-content:center; cursor:pointer;
+  }
+  .leak-back-btn:active{transform:scale(.94);}
+  .leak-scroll{flex:1; overflow-y:auto; padding:18px 18px 34px;}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="hero-logo"><span class="dot"></span> <span id="eyebrowText">FAN PROJECT — غير رسمي</span></div>
+    <div class="gallery-title-wrap" id="galleryTitleWrap"><h1 id="galleryTitle">معرض الباكجات</h1></div>
+    <p class="sub" id="heroSub">استعرض كل باكجات اللاعبين هنا، أضف صورك الخاصة وعدّلها بحرية. هذا موقع مستقل بتصميم خاص، غير تابع لأي شركة ألعاب رسمية.</p>
+    <span class="hero-tag" id="heroTag">تصفح · أضف · عدّل</span>
+  </div>
+</header>
+
+<div class="admin-bar admin-only hidden" id="adminBar">
+  <div class="admin-pill"><span class="dot2"></span> وضع الإدارة مفعّل</div>
+  <div class="admin-links">
+    <button class="btn btn-ghost" id="editTextsBtn">تعديل النصوص</button>
+    <button class="btn btn-ghost" id="changePassBtn">تغيير كلمة السر</button>
+    <button class="btn btn-danger" id="logoutBtn">تسجيل الخروج</button>
+  </div>
+</div>
+
+<main class="packs-section">
+  <div class="section-header">
+    <h2 id="sectionTitle">الباكجات</h2>
+    <button class="btn btn-primary admin-only hidden" id="addPackBtn"><span id="addPackBtnLabel">+ إضافة باكج جديد</span></button>
+  </div>
+  <div class="packs-grid" id="packsGrid"></div>
+</main>
+
+<!-- Edit / Add Modal -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <h3 id="modalTitle">إضافة باكج</h3>
+    <div class="field">
+      <label>اسم الباكج</label>
+      <input type="text" id="packNameInput" placeholder="مثال: باكج نجوم الأسطورة">
+    </div>
+    <div class="field">
+      <label>وصف قصير (اختياري)</label>
+      <input type="text" id="packDescInput" placeholder="مثال: يحتوي على 3 لاعبين مميزين">
+    </div>
+    <div class="field">
+      <label>سعر الباكج بالكوينز (اختياري)</label>
+      <input type="text" id="packCoinsInput" inputmode="numeric" placeholder="مثال: 25000">
+    </div>
+    <div class="field">
+      <label>صورة الباكج</label>
+      <div class="upload-zone" id="uploadZone">
+        <div>اضغط لاختيار صورة من جهازك</div>
+        <div class="hint">PNG / JPG — سيتم حفظها مع الباكج</div>
+        <input type="file" id="imageInput" accept="image/*">
+      </div>
+      <div class="preview-wrap" id="previewWrap"><img id="previewImg" alt=""></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" id="cancelBtn">إلغاء</button>
+      <button class="btn btn-primary" id="saveBtn">حفظ</button>
+    </div>
+  </div>
+</div>
+
+<!-- Coins Check Modal (shown when clicking a pack card) -->
+<div class="modal-overlay" id="coinsModalOverlay">
+  <div class="modal coins-modal">
+    <div class="coins-icon">🪙</div>
+    <h3 id="coinsPackName">اسم الباكج</h3>
+    <p class="coins-question">كم عدد الكوينز الذي لديك في حسابك؟</p>
+    <div class="field">
+      <input type="text" id="coinsAmountInput" inputmode="numeric" placeholder="اكتب عدد الكوينز هنا">
+    </div>
+    <div class="chance-wrap hidden" id="chanceWrap">
+      <div class="chance-ring">
+        <svg viewBox="0 0 120 120">
+          <circle class="chance-bg" cx="60" cy="60" r="52"></circle>
+          <circle class="chance-fg" id="chanceCircle" cx="60" cy="60" r="52"></circle>
+        </svg>
+        <div class="chance-percent">
+          <span class="num" id="chancePercentNum">0%</span>
+          <span class="lbl">فرصة الحصول على لاعب</span>
+        </div>
+      </div>
+      <div class="chance-msg" id="chanceMsg"></div>
+      <div class="chance-detail" id="chanceDetail"></div>
+      <button class="btn leak-btn" id="leakBtn">🎯 احصل على الثغرة</button>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" id="coinsCancelBtn">إغلاق</button>
+      <button class="btn btn-primary" id="coinsCheckBtn">تحقق من النسبة</button>
+    </div>
+  </div>
+</div>
+
+<!-- Leak (الثغرة) Modal -->
+<div class="modal-overlay" id="leakModalOverlay">
+  <div class="modal leak-modal">
+    <div class="leak-topbar">
+      <button class="leak-back-btn" id="leakCloseBtn" aria-label="رجوع">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+      </button>
+      <h3 id="leakModalTitle">ثغرة الباكج</h3>
+    </div>
+    <div class="leak-scroll">
+      <button class="btn btn-ghost hidden" id="addLeakCardBtn">+ إضافة بطاقة</button>
+      <input type="file" id="leakCardInput" accept="image/*" class="hidden">
+      <div class="leak-cards-grid" id="leakCardsGrid"></div>
+      <div class="leak-desc-wrap">
+        <div class="leak-desc-view" id="leakDescView"></div>
+        <textarea class="leak-desc-edit hidden" id="leakDescEdit" placeholder="اكتب وصف الثغرة هنا..."></textarea>
+        <button class="btn btn-primary hidden" id="saveLeakDescBtn">حفظ الوصف</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Login Modal (Firebase Auth - admin only) -->
+<div class="modal-overlay" id="pwModalOverlay">
+  <div class="modal">
+    <h3 id="pwModalTitle">دخول الإدارة</h3>
+    <div class="field" id="pwEmailField">
+      <label>البريد الإلكتروني</label>
+      <input type="email" id="pwEmailInput" placeholder="admin@example.com">
+    </div>
+    <div class="field">
+      <label id="pwLabel1">كلمة السر</label>
+      <input type="password" id="pwInput1" placeholder="••••">
+    </div>
+    <div class="field hidden" id="pwConfirmField">
+      <label>تأكيد كلمة السر الجديدة</label>
+      <input type="password" id="pwInput2" placeholder="••••">
+    </div>
+    <div class="pw-error" id="pwError">بيانات الدخول غير صحيحة</div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" id="pwCancelBtn">إلغاء</button>
+      <button class="btn btn-primary" id="pwSubmitBtn">دخول</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- Texts Editing Modal (admin only) -->
+<div class="modal-overlay" id="textsModalOverlay">
+  <div class="modal">
+    <h3>تعديل نصوص الموقع</h3>
+    <div class="field">
+      <label>عنوان التبويب (Tab Title)</label>
+      <input type="text" id="txtPageTitle" placeholder="الباكجات">
+    </div>
+    <div class="field">
+      <label>الشعار العلوي الصغير</label>
+      <input type="text" id="txtEyebrow" placeholder="FAN PROJECT — غير رسمي">
+    </div>
+    <div class="field">
+      <label>العنوان الرئيسي</label>
+      <input type="text" id="txtTitle" placeholder="معرض الباكجات">
+    </div>
+    <div class="field">
+      <label>النص التوضيحي أسفل العنوان</label>
+      <input type="text" id="txtSubtitle" placeholder="استعرض كل باكجات اللاعبين هنا...">
+    </div>
+    <div class="field">
+      <label>وسم صغير (تصفح · أضف · عدّل)</label>
+      <input type="text" id="txtTag" placeholder="تصفح · أضف · عدّل">
+    </div>
+    <div class="field">
+      <label>عنوان قسم الباكجات</label>
+      <input type="text" id="txtSectionTitle" placeholder="الباكجات">
+    </div>
+    <div class="field">
+      <label>نص زر إضافة باكج</label>
+      <input type="text" id="txtAddBtn" placeholder="+ إضافة باكج جديد">
+    </div>
+    <div class="field">
+      <label>نص عند عدم وجود باكجات</label>
+      <input type="text" id="txtEmptyState" placeholder="لا توجد باكجات بعد...">
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" id="textsResetBtn">استعادة الافتراضي</button>
+      <button class="btn btn-ghost" id="textsCancelBtn">إلغاء</button>
+      <button class="btn btn-primary" id="textsSaveBtn">حفظ</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- Firebase (compat SDK) -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyDF-sNelmIgAzsf50CDuE_gm7GbRtgZw-s",
+    authDomain: "efootball-packs-1fdc5.firebaseapp.com",
+    projectId: "efootball-packs-1fdc5",
+    storageBucket: "efootball-packs-1fdc5.firebasestorage.app",
+    messagingSenderId: "993255146713",
+    appId: "1:993255146713:web:e871c665437cd35747aac8"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+  const auth = firebase.auth();
+</script>
+
+<script>
+(function(){
+  // ملاحظة: STORAGE_KEY و TEXTS_KEY القديمة لم تعد تُستخدم — البيانات الآن تُقرأ وتُكتب مباشرة في Firestore
+  const PACKS_DOC = db.collection('efootball').doc('packs');
+  const TEXTS_DOC = db.collection('efootball').doc('texts');
+  const defaultTexts = {
+    pageTitle: 'الباكجات',
+    eyebrow: 'FAN PROJECT — غير رسمي',
+    title: 'معرض الباكجات',
+    subtitle: 'استعرض كل باكجات اللاعبين هنا، أضف صورك الخاصة وعدّلها بحرية. هذا موقع مستقل بتصميم خاص، غير تابع لأي شركة ألعاب رسمية.',
+    tag: 'تصفح · أضف · عدّل',
+    sectionTitle: 'الباكجات',
+    addBtn: '+ إضافة باكج جديد',
+    emptyState: 'لا توجد باكجات بعد. اضغط "إضافة باكج جديد" للبدء.'
+  };
+  let siteTexts = { ...defaultTexts };
+  let packs = [];
+  let editingId = null;
+  let pendingImage = null;
+  let pendingImageUploading = false;
+  let adminMode = false;
+  let pwMode = 'enter'; // 'enter' | 'set' | 'change'
+  let tapCount = 0;
+  let tapTimer = null;
+
+  const grid = document.getElementById('packsGrid');
+  const modalOverlay = document.getElementById('modalOverlay');
+  const modalTitle = document.getElementById('modalTitle');
+  const nameInput = document.getElementById('packNameInput');
+  const descInput = document.getElementById('packDescInput');
+  const coinsPriceInput = document.getElementById('packCoinsInput');
+  const uploadZone = document.getElementById('uploadZone');
+  const imageInput = document.getElementById('imageInput');
+  const previewWrap = document.getElementById('previewWrap');
+  const previewImg = document.getElementById('previewImg');
+  const saveBtn = document.getElementById('saveBtn');
+  const toast = document.getElementById('toast');
+
+  const galleryTitleWrap = document.getElementById('galleryTitleWrap');
+  const adminBar = document.getElementById('adminBar');
+  const addPackBtn = document.getElementById('addPackBtn');
+  const changePassBtn = document.getElementById('changePassBtn');
+  const logoutBtn = document.getElementById('logoutBtn');
+
+  const pwModalOverlay = document.getElementById('pwModalOverlay');
+  const pwModalTitle = document.getElementById('pwModalTitle');
+  const pwEmailField = document.getElementById('pwEmailField');
+  const pwEmailInput = document.getElementById('pwEmailInput');
+  const pwLabel1 = document.getElementById('pwLabel1');
+  const pwInput1 = document.getElementById('pwInput1');
+  const pwInput2 = document.getElementById('pwInput2');
+  const pwConfirmField = document.getElementById('pwConfirmField');
+  const pwError = document.getElementById('pwError');
+  const pwCancelBtn = document.getElementById('pwCancelBtn');
+  const pwSubmitBtn = document.getElementById('pwSubmitBtn');
+
+  const editTextsBtn = document.getElementById('editTextsBtn');
+  const textsModalOverlay = document.getElementById('textsModalOverlay');
+  const textsCancelBtn = document.getElementById('textsCancelBtn');
+  const textsSaveBtn = document.getElementById('textsSaveBtn');
+  const textsResetBtn = document.getElementById('textsResetBtn');
+  const txtPageTitle = document.getElementById('txtPageTitle');
+  const txtEyebrow = document.getElementById('txtEyebrow');
+  const txtTitle = document.getElementById('txtTitle');
+  const txtSubtitle = document.getElementById('txtSubtitle');
+  const txtTag = document.getElementById('txtTag');
+  const txtSectionTitle = document.getElementById('txtSectionTitle');
+  const txtAddBtn = document.getElementById('txtAddBtn');
+  const txtEmptyState = document.getElementById('txtEmptyState');
+
+  const eyebrowText = document.getElementById('eyebrowText');
+  const galleryTitle = document.getElementById('galleryTitle');
+  const heroSub = document.getElementById('heroSub');
+  const heroTag = document.getElementById('heroTag');
+  const sectionTitle = document.getElementById('sectionTitle');
+  const addPackBtnLabel = document.getElementById('addPackBtnLabel');
+
+  const coinsModalOverlay = document.getElementById('coinsModalOverlay');
+  const coinsPackName = document.getElementById('coinsPackName');
+  const coinsAmountInput = document.getElementById('coinsAmountInput');
+  const chanceWrap = document.getElementById('chanceWrap');
+  const chanceCircle = document.getElementById('chanceCircle');
+  const chancePercentNum = document.getElementById('chancePercentNum');
+  const chanceMsg = document.getElementById('chanceMsg');
+  const chanceDetail = document.getElementById('chanceDetail');
+  const coinsCancelBtn = document.getElementById('coinsCancelBtn');
+  const coinsCheckBtn = document.getElementById('coinsCheckBtn');
+  const CHANCE_CIRC = 2 * Math.PI * 52;
+  let coinsCheckingPack = null;
+
+  const leakBtn = document.getElementById('leakBtn');
+  const leakModalOverlay = document.getElementById('leakModalOverlay');
+  const leakModalTitle = document.getElementById('leakModalTitle');
+  const leakCardsGrid = document.getElementById('leakCardsGrid');
+  const addLeakCardBtn = document.getElementById('addLeakCardBtn');
+  const leakCardInput = document.getElementById('leakCardInput');
+  const leakDescView = document.getElementById('leakDescView');
+  const leakDescEdit = document.getElementById('leakDescEdit');
+  const saveLeakDescBtn = document.getElementById('saveLeakDescBtn');
+  const leakCloseBtn = document.getElementById('leakCloseBtn');
+  let leakPack = null;
+
+  // أقل عدد كوينز يمنحك أي فرصة على الإطلاق
+  const MIN_COINS_FOR_CHANCE = 100;
+
+  function lerp(x, x0, x1, y0, y1){
+    const t = Math.min(1, Math.max(0, (x - x0) / (x1 - x0)));
+    return y0 + t * (y1 - y0);
+  }
+
+  // النسبة تُحسب فقط بناءً على عدد الكوينز المملوكة (بغض النظر عن سعر الباكج):
+  // أقل من 100        -> 0%
+  // من 100 إلى 999     -> تتدرج بين 20% و 30%
+  // من 1000 إلى 1999   -> تتدرج بين 70% و 80%
+  // 2000 فأكثر         -> تتدرج بين 90% و 100% (وتصل 100% عند 6000 فما فوق)
+  function calcChance(owned){
+    let pct;
+    if(owned < MIN_COINS_FOR_CHANCE){
+      pct = 0;
+    } else if(owned < 1000){
+      pct = lerp(owned, 100, 999, 20, 30);
+    } else if(owned < 2000){
+      pct = lerp(owned, 1000, 1999, 70, 80);
+    } else {
+      pct = lerp(owned, 2000, 6000, 90, 100);
+    }
+    return Math.max(0, Math.min(100, Math.round(pct)));
+  }
+
+  function showToast(msg){
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(()=> toast.classList.remove('show'), 2000);
+  }
+
+  function uid(){ return 'p_' + Date.now() + '_' + Math.random().toString(36).slice(2,8); }
+
+  // ---------- ImgBB (تخزين جميع صور الموقع) ----------
+  const IMGBB_API_KEY = 'd4249a67a382915d7ae15f4f20c38948';
+  const IMGBB_UPLOAD_URL = 'https://api.imgbb.com/1/upload';
+
+  async function uploadToImgbb(file){
+    const formData = new FormData();
+    formData.append('image', file);
+    const res = await fetch(`${IMGBB_UPLOAD_URL}?key=${IMGBB_API_KEY}`, {
+      method: 'POST',
+      body: formData
+    });
+    let data;
+    try{ data = await res.json(); } catch(e){ data = null; }
+    if(!res.ok || !data || !data.success){
+      const msg = (data && data.error && data.error.message) || 'تعذّر رفع الصورة إلى ImgBB';
+      throw new Error(msg);
+    }
+    return data.data.url;
+  }
+
+  const defaultPacks = [
+    { id: uid(), name: 'باكج الأساطير', desc: 'مجموعة مختارة من نجوم سابقين', image: null, coins: null, leak: { cards: [], desc: '' } },
+    { id: uid(), name: 'باكج المهاجمين', desc: 'أفضل الهدافين هذا الموسم', image: null, coins: null, leak: { cards: [], desc: '' } },
+    { id: uid(), name: 'باكج الدفاع الحديدي', desc: 'مدافعون بمواصفات عالية', image: null, coins: null, leak: { cards: [], desc: '' } },
+  ];
+
+  let packsUnsubscribe = null;
+
+  async function loadPacks(){
+    try{
+      const snap = await PACKS_DOC.get();
+      if(snap.exists && Array.isArray(snap.data().packs)){
+        packs = snap.data().packs;
+      } else {
+        packs = defaultPacks;
+        await savePacks();
+      }
+    } catch(e){
+      console.error(e);
+      packs = defaultPacks;
+      showToast('تعذّر الاتصال بقاعدة البيانات، تحقق من إعدادات Firebase');
+    }
+    render();
+
+    // مزامنة حيّة: أي تغيير يسويه المالك يظهر تلقائيًا لكل الزوار بدون تحديث الصفحة
+    if(packsUnsubscribe) packsUnsubscribe();
+    packsUnsubscribe = PACKS_DOC.onSnapshot((snap) => {
+      if(snap.exists && Array.isArray(snap.data().packs)){
+        packs = snap.data().packs;
+        render();
+      }
+    });
+  }
+
+  async function savePacks(){
+    try{
+      await PACKS_DOC.set({ packs });
+    } catch(e){
+      console.error(e);
+      showToast('حدث خطأ أثناء الحفظ في Firebase');
+    }
+  }
+
+  // تسجيل الدخول أصبح عبر Firebase Auth الحقيقي — راجع onAuthStateChanged بالأسفل
+
+  let textsUnsubscribe = null;
+
+  async function loadTexts(){
+    try{
+      const snap = await TEXTS_DOC.get();
+      siteTexts = snap.exists ? { ...defaultTexts, ...snap.data() } : { ...defaultTexts };
+      if(!snap.exists) await saveTextsToStorage();
+    } catch(e){
+      console.error(e);
+      siteTexts = { ...defaultTexts };
+    }
+    applyTexts();
+
+    if(textsUnsubscribe) textsUnsubscribe();
+    textsUnsubscribe = TEXTS_DOC.onSnapshot((snap) => {
+      if(snap.exists){
+        siteTexts = { ...defaultTexts, ...snap.data() };
+        applyTexts();
+      }
+    });
+  }
+
+  async function saveTextsToStorage(){
+    try{
+      await TEXTS_DOC.set(siteTexts);
+      return true;
+    } catch(e){
+      console.error(e);
+      showToast('حدث خطأ أثناء حفظ النصوص في Firebase');
+      return false;
+    }
+  }
+
+  function applyTexts(){
+    document.title = siteTexts.pageTitle;
+    eyebrowText.textContent = siteTexts.eyebrow;
+    galleryTitle.textContent = siteTexts.title;
+    heroSub.textContent = siteTexts.subtitle;
+    heroTag.textContent = siteTexts.tag;
+    sectionTitle.textContent = siteTexts.sectionTitle;
+    addPackBtnLabel.textContent = siteTexts.addBtn;
+    render();
+  }
+
+  function openTextsModal(){
+    txtPageTitle.value = siteTexts.pageTitle;
+    txtEyebrow.value = siteTexts.eyebrow;
+    txtTitle.value = siteTexts.title;
+    txtSubtitle.value = siteTexts.subtitle;
+    txtTag.value = siteTexts.tag;
+    txtSectionTitle.value = siteTexts.sectionTitle;
+    txtAddBtn.value = siteTexts.addBtn;
+    txtEmptyState.value = siteTexts.emptyState;
+    textsModalOverlay.classList.add('open');
+  }
+
+  function closeTextsModal(){
+    textsModalOverlay.classList.remove('open');
+  }
+
+  editTextsBtn.addEventListener('click', openTextsModal);
+  textsCancelBtn.addEventListener('click', closeTextsModal);
+  textsModalOverlay.addEventListener('click', (e) => { if(e.target === textsModalOverlay) closeTextsModal(); });
+
+  textsSaveBtn.addEventListener('click', async () => {
+    siteTexts = {
+      pageTitle: txtPageTitle.value.trim() || defaultTexts.pageTitle,
+      eyebrow: txtEyebrow.value.trim() || defaultTexts.eyebrow,
+      title: txtTitle.value.trim() || defaultTexts.title,
+      subtitle: txtSubtitle.value.trim() || defaultTexts.subtitle,
+      tag: txtTag.value.trim() || defaultTexts.tag,
+      sectionTitle: txtSectionTitle.value.trim() || defaultTexts.sectionTitle,
+      addBtn: txtAddBtn.value.trim() || defaultTexts.addBtn,
+      emptyState: txtEmptyState.value.trim() || defaultTexts.emptyState
+    };
+    if(await saveTextsToStorage()){
+      applyTexts();
+      closeTextsModal();
+      showToast('تم حفظ النصوص');
+    }
+  });
+
+  textsResetBtn.addEventListener('click', async () => {
+    if(confirm('هل تريد استعادة كل النصوص إلى الوضع الافتراضي؟')){
+      siteTexts = { ...defaultTexts };
+      await saveTextsToStorage();
+      applyTexts();
+      closeTextsModal();
+      showToast('تم استعادة النصوص الافتراضية');
+    }
+  });
+
+  function setAdminMode(on){
+    adminMode = on;
+    document.querySelectorAll('.admin-only').forEach(el => {
+      el.classList.toggle('hidden', !on);
+    });
+    render();
+  }
+
+  // ---- secret tap on the gallery title: يفتح شاشة دخول الإدارة الحقيقية ----
+  galleryTitleWrap.addEventListener('click', () => {
+    tapCount++;
+    clearTimeout(tapTimer);
+    tapTimer = setTimeout(() => { tapCount = 0; }, 1400);
+    if(tapCount >= 5){
+      tapCount = 0;
+      clearTimeout(tapTimer);
+      if(adminMode){
+        showToast('وضع الإدارة مفعّل بالفعل');
+        return;
+      }
+      openPwModal('enter');
+    }
+  });
+
+  function openPwModal(mode){
+    pwMode = mode;
+    pwError.classList.remove('show');
+    pwEmailInput.value = '';
+    pwInput1.value = '';
+    pwInput2.value = '';
+    if(mode === 'change'){
+      pwModalTitle.textContent = 'تغيير كلمة السر';
+      pwEmailField.classList.add('hidden');
+      pwLabel1.textContent = 'كلمة سر جديدة';
+      pwConfirmField.classList.remove('hidden');
+      pwSubmitBtn.textContent = 'حفظ';
+    } else {
+      pwModalTitle.textContent = 'دخول الإدارة';
+      pwEmailField.classList.remove('hidden');
+      pwLabel1.textContent = 'كلمة السر';
+      pwConfirmField.classList.add('hidden');
+      pwSubmitBtn.textContent = 'دخول';
+    }
+    pwModalOverlay.classList.add('open');
+    setTimeout(() => (mode === 'change' ? pwInput1 : pwEmailInput).focus(), 50);
+  }
+
+  function closePwModal(){
+    pwModalOverlay.classList.remove('open');
+  }
+
+  pwCancelBtn.addEventListener('click', closePwModal);
+  pwModalOverlay.addEventListener('click', (e) => { if(e.target === pwModalOverlay) closePwModal(); });
+
+  pwSubmitBtn.addEventListener('click', async () => {
+    pwError.classList.remove('show');
+
+    if(pwMode === 'change'){
+      const val1 = pwInput1.value;
+      const val2 = pwInput2.value;
+      if(!val1 || val1.length < 6){
+        pwError.textContent = 'كلمة السر يجب أن تكون 6 خانات على الأقل';
+        pwError.classList.add('show');
+        return;
+      }
+      if(val1 !== val2){
+        pwError.textContent = 'كلمتا السر غير متطابقتين';
+        pwError.classList.add('show');
+        return;
+      }
+      try{
+        await auth.currentUser.updatePassword(val1);
+        closePwModal();
+        showToast('تم تغيير كلمة السر');
+      } catch(err){
+        pwError.textContent = 'حدث خطأ، قد تحتاج لتسجيل الدخول من جديد ثم إعادة المحاولة';
+        pwError.classList.add('show');
+      }
+      return;
+    }
+
+    // enter mode - تسجيل دخول حقيقي عبر Firebase Auth
+    const email = pwEmailInput.value.trim();
+    const pass = pwInput1.value;
+    if(!email || !pass){
+      pwError.textContent = 'أدخل البريد الإلكتروني وكلمة السر';
+      pwError.classList.add('show');
+      return;
+    }
+    pwSubmitBtn.disabled = true;
+    try{
+      await auth.signInWithEmailAndPassword(email, pass);
+      closePwModal();
+      showToast('تم تفعيل وضع الإدارة');
+    } catch(err){
+      pwError.textContent = 'بيانات الدخول غير صحيحة';
+      pwError.classList.add('show');
+    } finally {
+      pwSubmitBtn.disabled = false;
+    }
+  });
+
+  pwInput1.addEventListener('keydown', (e) => { if(e.key === 'Enter' && pwConfirmField.classList.contains('hidden')) pwSubmitBtn.click(); });
+  pwInput2.addEventListener('keydown', (e) => { if(e.key === 'Enter') pwSubmitBtn.click(); });
+
+  changePassBtn.addEventListener('click', () => openPwModal('change'));
+  logoutBtn.addEventListener('click', () => {
+    auth.signOut();
+    showToast('تم الخروج من وضع الإدارة');
+  });
+
+  // مصدر الحقيقة الوحيد لوضع الإدارة: جلسة Firebase Auth فعلية (تفضل مفعّلة حتى بعد إغلاق المتصفح)
+  auth.onAuthStateChanged((user) => {
+    setAdminMode(!!user);
+  });
+
+  function placeholderSVG(){
+    return `<div class="placeholder">
+      <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+        <circle cx="12" cy="12" r="9"></circle>
+        <path d="M12 3v18M3 12h18M5.5 5.5l13 13M18.5 5.5l-13 13"></path>
+      </svg>
+      <span>لا توجد صورة بعد</span>
+    </div>`;
+  }
+
+  function render(){
+    grid.innerHTML = '';
+    if(packs.length === 0){
+      grid.innerHTML = `<div class="empty-state">${escapeHtml(siteTexts.emptyState)}</div>`;
+      return;
+    }
+    packs.forEach(pack => {
+      const card = document.createElement('div');
+      card.className = 'pack-card';
+      card.dataset.id = pack.id;
+      card.innerHTML = `
+        <div class="pack-media">
+          ${pack.image ? `<img src="${pack.image}" alt="${escapeHtml(pack.name)}">` : placeholderSVG()}
+          <div class="pack-shine"></div>
+        </div>
+        <div class="pack-body">
+          <div class="pack-name">${escapeHtml(pack.name)}</div>
+          <div class="pack-desc">${escapeHtml(pack.desc || '')}</div>
+          ${adminMode ? `
+          <div class="pack-actions">
+            <button class="btn btn-ghost" data-action="edit" data-id="${pack.id}">تعديل</button>
+            <button class="btn btn-danger" data-action="delete" data-id="${pack.id}">حذف</button>
+          </div>` : ''}
+        </div>
+      `;
+      grid.appendChild(card);
+    });
+  }
+
+  function escapeHtml(str){
+    const d = document.createElement('div');
+    d.textContent = str || '';
+    return d.innerHTML;
+  }
+
+  function openModal(pack){
+    editingId = pack ? pack.id : null;
+    pendingImage = pack ? pack.image : null;
+    modalTitle.textContent = pack ? 'تعديل الباكج' : 'إضافة باكج';
+    nameInput.value = pack ? pack.name : '';
+    descInput.value = pack ? (pack.desc || '') : '';
+    coinsPriceInput.value = pack && pack.coins ? pack.coins : '';
+    if(pendingImage){
+      previewImg.src = pendingImage;
+      previewWrap.classList.add('show');
+    } else {
+      previewWrap.classList.remove('show');
+      previewImg.src = '';
+    }
+    imageInput.value = '';
+    modalOverlay.classList.add('open');
+  }
+
+  function closeModal(){
+    modalOverlay.classList.remove('open');
+    editingId = null;
+    pendingImage = null;
+    pendingImageUploading = false;
+    saveBtn.disabled = false;
+    saveBtn.textContent = 'حفظ';
+  }
+
+  uploadZone.addEventListener('click', () => imageInput.click());
+
+  imageInput.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if(!file) return;
+
+    // معاينة فورية محليًا أثناء رفع الصورة إلى ImgBB
+    const localReader = new FileReader();
+    localReader.onload = () => {
+      previewImg.src = localReader.result;
+      previewWrap.classList.add('show');
+    };
+    localReader.readAsDataURL(file);
+
+    pendingImageUploading = true;
+    saveBtn.disabled = true;
+    saveBtn.textContent = 'جارِ رفع الصورة...';
+
+    uploadToImgbb(file)
+      .then(url => {
+        pendingImage = url;
+        previewImg.src = url;
+        showToast('تم رفع الصورة');
+      })
+      .catch(err => {
+        showToast('فشل رفع الصورة: ' + err.message);
+      })
+      .finally(() => {
+        pendingImageUploading = false;
+        saveBtn.disabled = false;
+        saveBtn.textContent = 'حفظ';
+      });
+  });
+
+  document.getElementById('addPackBtn').addEventListener('click', () => openModal(null));
+  document.getElementById('cancelBtn').addEventListener('click', closeModal);
+  modalOverlay.addEventListener('click', (e) => { if(e.target === modalOverlay) closeModal(); });
+
+  document.getElementById('saveBtn').addEventListener('click', async () => {
+    if(pendingImageUploading){ showToast('انتظر حتى تنتهي عملية رفع الصورة'); return; }
+    const name = nameInput.value.trim();
+    if(!name){ showToast('اكتب اسم الباكج أولاً'); return; }
+    const desc = descInput.value.trim();
+    const coinsRaw = coinsPriceInput.value.trim().replace(/[^0-9]/g, '');
+    const coins = coinsRaw ? parseInt(coinsRaw, 10) : null;
+
+    if(editingId){
+      const idx = packs.findIndex(p => p.id === editingId);
+      if(idx !== -1){
+        packs[idx].name = name;
+        packs[idx].desc = desc;
+        packs[idx].image = pendingImage;
+        packs[idx].coins = coins;
+      }
+    } else {
+      packs.push({ id: uid(), name, desc, image: pendingImage, coins, leak: { cards: [], desc: '' } });
+    }
+    await savePacks();
+    render();
+    closeModal();
+    showToast('تم الحفظ');
+  });
+
+  grid.addEventListener('click', async (e) => {
+    const btn = e.target.closest('button[data-action]');
+    if(btn){
+      const id = btn.dataset.id;
+      const action = btn.dataset.action;
+      const pack = packs.find(p => p.id === id);
+      if(!pack) return;
+
+      if(action === 'edit'){
+        openModal(pack);
+      } else if(action === 'delete'){
+        if(confirm(`هل تريد حذف "${pack.name}"؟`)){
+          packs = packs.filter(p => p.id !== id);
+          await savePacks();
+          render();
+          showToast('تم الحذف');
+        }
+      }
+      return;
+    }
+
+    const card = e.target.closest('.pack-card');
+    if(card){
+      const pack = packs.find(p => p.id === card.dataset.id);
+      if(pack) openCoinsModal(pack);
+    }
+  });
+
+  function openCoinsModal(pack){
+    coinsCheckingPack = pack;
+    coinsPackName.textContent = pack.name;
+    coinsAmountInput.value = '';
+    chanceWrap.classList.add('hidden');
+    chanceCircle.style.strokeDashoffset = CHANCE_CIRC;
+    chanceCircle.className = 'chance-fg';
+    chancePercentNum.textContent = '0%';
+    chanceMsg.className = 'chance-msg';
+    chanceMsg.textContent = '';
+    chanceDetail.textContent = '';
+    coinsModalOverlay.classList.add('open');
+    setTimeout(() => coinsAmountInput.focus(), 50);
+  }
+
+  function closeCoinsModal(){
+    coinsModalOverlay.classList.remove('open');
+    coinsCheckingPack = null;
+  }
+
+  coinsCancelBtn.addEventListener('click', closeCoinsModal);
+  coinsModalOverlay.addEventListener('click', (e) => { if(e.target === coinsModalOverlay) closeCoinsModal(); });
+
+  coinsCheckBtn.addEventListener('click', () => {
+    const raw = coinsAmountInput.value.trim().replace(/[^0-9]/g, '');
+    if(!raw){
+      chanceWrap.classList.remove('hidden');
+      chanceMsg.className = 'chance-msg low';
+      chanceMsg.textContent = 'اكتب عدد الكوينز أولاً';
+      chanceDetail.textContent = '';
+      return;
+    }
+    const owned = parseInt(raw, 10);
+    const pct = calcChance(owned);
+
+    chanceWrap.classList.remove('hidden');
+
+    // تحديث الحلقة الدائرية
+    const offset = CHANCE_CIRC - (pct / 100) * CHANCE_CIRC;
+    let level = 'low';
+    if(pct >= 70) level = 'high';
+    else if(pct >= 30) level = 'mid';
+    // إعادة رسم بسيطة لضمان تشغيل الانتقال حتى لو كانت نفس القيمة السابقة
+    chanceCircle.style.transition = 'none';
+    chanceCircle.style.strokeDashoffset = CHANCE_CIRC;
+    void chanceCircle.offsetWidth;
+    chanceCircle.style.transition = '';
+    chanceCircle.className = 'chance-fg ' + level;
+    requestAnimationFrame(() => { chanceCircle.style.strokeDashoffset = offset; });
+
+    chancePercentNum.textContent = pct + '%';
+    chanceMsg.className = 'chance-msg ' + level;
+
+    if(owned < MIN_COINS_FOR_CHANCE){
+      chanceMsg.textContent = `فرصتك 0% حاليًا — تحتاج إلى ${MIN_COINS_FOR_CHANCE.toLocaleString('en-US')} كوينز على الأقل حتى تبدأ فرصتك بالظهور.`;
+    } else if(pct < 30){
+      chanceMsg.textContent = 'الفرصة لا تزال ضعيفة، اجمع المزيد من الكوينز لتحسينها.';
+    } else if(pct < 70){
+      chanceMsg.textContent = 'فرصة معقولة! استمر بجمع الكوينز لتحسين حظك.';
+    } else if(pct < 100){
+      chanceMsg.textContent = 'فرصة ممتازة! أنت قريب جدًا من ضمان الحصول على لاعب.';
+    } else {
+      chanceMsg.textContent = 'فرصة شبه مؤكدة! رصيدك يكفي وأكثر لهذا الباكج.';
+    }
+
+    chanceDetail.textContent = `تمتلك ${owned.toLocaleString('en-US')} كوينز في حسابك`;
+  });
+
+  coinsAmountInput.addEventListener('keydown', (e) => { if(e.key === 'Enter') coinsCheckBtn.click(); });
+
+  // ---------- LEAK (الثغرة) ----------
+  function ensureLeak(pack){
+    if(!pack.leak) pack.leak = { cards: [], desc: '' };
+    if(!Array.isArray(pack.leak.cards)) pack.leak.cards = [];
+    return pack.leak;
+  }
+
+  function renderLeakCards(){
+    if(!leakPack) return;
+    const leak = ensureLeak(leakPack);
+    leakCardsGrid.innerHTML = '';
+    if(leak.cards.length === 0){
+      leakCardsGrid.innerHTML = `<div class="leak-empty">لا توجد بطاقات بعد.</div>`;
+      return;
+    }
+    leak.cards.forEach(card => {
+      const wrap = document.createElement('div');
+      wrap.className = 'leak-card-wrap';
+
+      const div = document.createElement('div');
+      div.className = 'leak-card';
+      div.innerHTML = `<img src="${card.image}" alt="بطاقة">` +
+        (adminMode ? `<button class="leak-card-del" data-card-id="${card.id}">×</button>` : '');
+      wrap.appendChild(div);
+
+      if(adminMode){
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.className = 'leak-press-input';
+        input.dataset.cardId = card.id;
+        input.placeholder = 'مثال: في سته';
+        input.value = card.note || '';
+        wrap.appendChild(input);
+      } else if(card.note){
+        const badge = document.createElement('div');
+        badge.className = 'leak-press-badge';
+        badge.textContent = card.note;
+        wrap.appendChild(badge);
+      }
+
+      leakCardsGrid.appendChild(wrap);
+    });
+  }
+
+  function openLeakModal(pack){
+    if(!pack) return;
+    leakPack = pack;
+    const leak = ensureLeak(pack);
+    leakModalTitle.textContent = 'ثغرة: ' + pack.name;
+    renderLeakCards();
+    addLeakCardBtn.classList.toggle('hidden', !adminMode);
+    if(adminMode){
+      leakDescView.classList.add('hidden');
+      leakDescEdit.classList.remove('hidden');
+      saveLeakDescBtn.classList.remove('hidden');
+      leakDescEdit.value = leak.desc || '';
+    } else {
+      leakDescView.classList.remove('hidden');
+      leakDescEdit.classList.add('hidden');
+      saveLeakDescBtn.classList.add('hidden');
+      leakDescView.textContent = leak.desc || 'لم يتم إضافة وصف بعد.';
+    }
+    leakModalOverlay.classList.add('open');
+  }
+
+  function closeLeakModal(){
+    leakModalOverlay.classList.remove('open');
+    leakPack = null;
+  }
+
+  leakBtn.addEventListener('click', () => {
+    if(coinsCheckingPack) openLeakModal(coinsCheckingPack);
+  });
+
+  leakCloseBtn.addEventListener('click', closeLeakModal);
+  leakModalOverlay.addEventListener('click', (e) => { if(e.target === leakModalOverlay) closeLeakModal(); });
+
+  addLeakCardBtn.addEventListener('click', () => leakCardInput.click());
+
+  leakCardInput.addEventListener('change', async (e) => {
+    const file = e.target.files[0];
+    if(!file || !leakPack) return;
+    const pack = leakPack;
+    leakCardInput.value = '';
+    addLeakCardBtn.disabled = true;
+    addLeakCardBtn.textContent = 'جارِ رفع الصورة...';
+    try{
+      const url = await uploadToImgbb(file);
+      const leak = ensureLeak(pack);
+      leak.cards.push({ id: uid(), image: url, note: '' });
+      await savePacks();
+      renderLeakCards();
+      showToast('تمت إضافة البطاقة');
+    } catch(err){
+      showToast('فشل رفع الصورة: ' + err.message);
+    } finally{
+      addLeakCardBtn.disabled = false;
+      addLeakCardBtn.textContent = '+ إضافة بطاقة';
+    }
+  });
+
+  leakCardsGrid.addEventListener('click', async (e) => {
+    const btn = e.target.closest('.leak-card-del');
+    if(!btn || !leakPack) return;
+    const cardId = btn.dataset.cardId;
+    if(confirm('هل تريد حذف هذه البطاقة؟')){
+      const leak = ensureLeak(leakPack);
+      leak.cards = leak.cards.filter(c => c.id !== cardId);
+      await savePacks();
+      renderLeakCards();
+      showToast('تم الحذف');
+    }
+  });
+
+  async function saveLeakCardNote(cardId, value){
+    if(!leakPack) return;
+    const leak = ensureLeak(leakPack);
+    const card = leak.cards.find(c => c.id === cardId);
+    if(!card) return;
+    card.note = value.trim();
+    await savePacks();
+  }
+
+  leakCardsGrid.addEventListener('change', (e) => {
+    const input = e.target.closest('.leak-press-input');
+    if(!input) return;
+    saveLeakCardNote(input.dataset.cardId, input.value);
+  });
+
+  leakCardsGrid.addEventListener('keydown', (e) => {
+    const input = e.target.closest('.leak-press-input');
+    if(!input) return;
+    if(e.key === 'Enter'){ input.blur(); }
+  });
+
+  saveLeakDescBtn.addEventListener('click', async () => {
+    if(!leakPack) return;
+    const leak = ensureLeak(leakPack);
+    leak.desc = leakDescEdit.value.trim();
+    await savePacks();
+    showToast('تم حفظ الوصف');
+  });
+
+  loadTexts();
+  loadPacks();
+})();
+</script>
+
+</body>
+</html>
