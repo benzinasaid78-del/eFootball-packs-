@@ -191,9 +191,10 @@
     border-radius:20px 20px 0 0; padding:26px 22px 30px;
     border:1px solid rgba(63,208,255,.2);
     transform: translateY(30px); transition: transform .25s ease;
-    max-height:88vh; overflow-y:auto;
+    max-height:88%; overflow-y:auto; -webkit-overflow-scrolling:touch;
+    display:flex; flex-direction:column;
   }
-  @media(min-width:640px){ .modal{border-radius:20px;} }
+  @media(min-width:640px){ .modal{border-radius:20px; max-height:88vh;} }
   .modal-overlay.open .modal{transform: translateY(0);}
   .modal h3{font-size:19px; font-weight:900; margin-bottom:18px;}
   .field{margin-bottom:16px;}
@@ -215,7 +216,7 @@
   .preview-wrap{margin-top:12px; border-radius:10px; overflow:hidden; aspect-ratio:4/3; background:var(--navy-950); display:none;}
   .preview-wrap.show{display:block;}
   .preview-wrap img{width:100%; height:100%; object-fit:cover;}
-  .modal-actions{display:flex; gap:10px; margin-top:22px;}
+  .modal-actions{display:flex; gap:10px; margin-top:22px; flex-shrink:0; scroll-margin-bottom:14px;}
   .modal-actions .btn{flex:1;}
 
   .toast{
@@ -592,6 +593,46 @@
 </script>
 
 <script>
+(function(){
+  // ---- Keep modals fully visible above the on-screen keyboard ----
+  // Fixed-position overlays are sized against the *layout* viewport by default,
+  // which doesn't shrink when the mobile keyboard opens — so bottom content
+  // (like confirm buttons) can end up hidden behind the keyboard. We sync each
+  // open modal-overlay to the real visible area (visualViewport) instead.
+  function syncModalsToViewport(){
+    const vv = window.visualViewport;
+    const overlays = document.querySelectorAll('.modal-overlay');
+    if(vv){
+      overlays.forEach(el => {
+        el.style.height = vv.height + 'px';
+        el.style.top = vv.offsetTop + 'px';
+      });
+    } else {
+      overlays.forEach(el => { el.style.height = ''; el.style.top = ''; });
+    }
+  }
+  if(window.visualViewport){
+    window.visualViewport.addEventListener('resize', syncModalsToViewport);
+    window.visualViewport.addEventListener('scroll', syncModalsToViewport);
+  }
+  window.addEventListener('resize', syncModalsToViewport);
+  syncModalsToViewport();
+
+  // When any field inside a modal is focused (keyboard opens), make sure that
+  // modal's action buttons scroll into view instead of staying hidden below the keyboard.
+  document.addEventListener('focusin', (e) => {
+    const field = e.target.closest('input, textarea');
+    if(!field) return;
+    const modal = field.closest('.modal');
+    if(!modal) return;
+    setTimeout(() => {
+      syncModalsToViewport();
+      const actions = modal.querySelector('.modal-actions');
+      if(actions) actions.scrollIntoView({ block:'end', behavior:'smooth' });
+    }, 250);
+  });
+})();
+
 (function(){
   // ملاحظة: STORAGE_KEY و TEXTS_KEY القديمة لم تعد تُستخدم — البيانات الآن تُقرأ وتُكتب مباشرة في Firestore
   const PACKS_DOC = db.collection('efootball').doc('packs');
