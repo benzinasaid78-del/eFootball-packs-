@@ -2,8 +2,20 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>الباكجات</title>
+
+<!-- PWA: تحويل الموقع إلى تطبيق قابل للتثبيت -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#050912">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="ALL EFOOTBALL">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="icons/icon-512.png">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
@@ -81,6 +93,30 @@
     color: var(--yellow-300); background: rgba(255,212,0,.06);
     letter-spacing:.05em;
   }
+
+  /* ---------- PWA INSTALL BUTTON ---------- */
+  .install-app-btn{
+    display:none; align-items:center; justify-content:center; gap:8px;
+    margin:26px auto 0; padding:13px 26px; font-size:14.5px;
+  }
+  .install-app-btn.show{display:inline-flex;}
+  .install-app-btn svg{width:18px; height:18px; flex-shrink:0;}
+  .ios-install-steps{
+    display:flex; flex-direction:column; gap:14px; margin-top:6px;
+  }
+  .ios-install-step{
+    display:flex; align-items:flex-start; gap:12px;
+    background: rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.1);
+    border-radius:12px; padding:12px 14px;
+  }
+  .ios-install-step .num{
+    flex-shrink:0; width:26px; height:26px; border-radius:50%;
+    background: linear-gradient(135deg, var(--cyan-400), #7cf0ff); color:#04202b;
+    display:flex; align-items:center; justify-content:center;
+    font-weight:900; font-size:13px;
+  }
+  .ios-install-step p{font-size:13.5px; color: var(--white); line-height:1.7;}
+  .ios-install-step p b{color: var(--yellow-300);}
 
   /* ---------- SECTION HEADER ---------- */
   .packs-section{max-width:1180px; margin:0 auto; padding:50px 20px 0;}
@@ -426,6 +462,11 @@
     <div class="gallery-title-wrap" id="galleryTitleWrap"><h1 id="galleryTitle">معرض الباكجات</h1></div>
     <p class="sub" id="heroSub">استعرض كل باكجات اللاعبين هنا، أضف صورك الخاصة وعدّلها بحرية. هذا موقع مستقل بتصميم خاص، غير تابع لأي شركة ألعاب رسمية.</p>
     <span class="hero-tag" id="heroTag">تصفح · أضف · عدّل</span>
+    <br>
+    <button class="btn btn-primary install-app-btn" id="installAppBtn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13"/><path d="m7 11 5 5 5-5"/><path d="M5 21h14"/></svg>
+      <span>تثبيت التطبيق</span>
+    </button>
   </div>
 </header>
 
@@ -489,6 +530,34 @@
     <div class="modal-actions">
       <button class="btn btn-ghost" id="commentCancelBtn">إلغاء</button>
       <button class="btn btn-primary" id="commentSaveBtn">حفظ</button>
+    </div>
+  </div>
+</div>
+
+<!-- iOS Install Instructions Modal -->
+<div class="modal-overlay" id="iosInstallOverlay">
+  <div class="modal">
+    <h3>تثبيت التطبيق على آيفون</h3>
+    <div class="ios-install-steps">
+      <div class="ios-install-step">
+        <span class="num">1</span>
+        <p>افتح الموقع من متصفح <b>Safari</b> (وليس أي متصفح آخر).</p>
+      </div>
+      <div class="ios-install-step">
+        <span class="num">2</span>
+        <p>اضغط على أيقونة <b>المشاركة</b> (المربع وفوقه سهم) الموجودة أسفل الشاشة.</p>
+      </div>
+      <div class="ios-install-step">
+        <span class="num">3</span>
+        <p>مرّر لأسفل واختر <b>"إضافة إلى الشاشة الرئيسية"</b> (Add to Home Screen).</p>
+      </div>
+      <div class="ios-install-step">
+        <span class="num">4</span>
+        <p>اضغط <b>"إضافة"</b> أعلى الشاشة، وسيظهر التطبيق كأيقونة على شاشتك الرئيسية.</p>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-primary" id="iosInstallCloseBtn" style="width:100%;">تمام، فهمت</button>
     </div>
   </div>
 </div>
@@ -1809,6 +1878,79 @@
   loadTexts();
   loadPacks();
   loadComments();
+})();
+</script>
+
+<!-- ---------- PWA: تثبيت التطبيق ---------- -->
+<script>
+(function(){
+  const installBtn = document.getElementById('installAppBtn');
+  const iosOverlay = document.getElementById('iosInstallOverlay');
+  const iosCloseBtn = document.getElementById('iosInstallCloseBtn');
+  if(!installBtn) return;
+
+  function isStandalone(){
+    return window.matchMedia('(display-mode: standalone)').matches ||
+           window.navigator.standalone === true; // iOS Safari
+  }
+
+  function isIOS(){
+    return /iphone|ipad|ipod/i.test(window.navigator.userAgent) ||
+           (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  }
+
+  let deferredPrompt = null;
+
+  // إذا كان التطبيق مثبت وشغّال بالفعل، لا داعي لإظهار الزر
+  if(isStandalone()){
+    installBtn.classList.remove('show');
+  } else {
+    // على أندرويد/كروم: الزر يظهر فقط عند توفر حدث beforeinstallprompt
+    // على آيفون: نظهره دائمًا لأن Safari لا يدعم هذا الحدث إطلاقًا
+    if(isIOS()){
+      installBtn.classList.add('show');
+    }
+  }
+
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    if(!isStandalone()) installBtn.classList.add('show');
+  });
+
+  installBtn.addEventListener('click', async () => {
+    if(deferredPrompt){
+      deferredPrompt.prompt();
+      const choice = await deferredPrompt.userChoice;
+      deferredPrompt = null;
+      if(choice.outcome === 'accepted'){
+        installBtn.classList.remove('show');
+      }
+    } else if(isIOS()){
+      iosOverlay.classList.add('open');
+    } else {
+      iosOverlay.classList.add('open');
+    }
+  });
+
+  if(iosCloseBtn){
+    iosCloseBtn.addEventListener('click', () => iosOverlay.classList.remove('open'));
+  }
+  if(iosOverlay){
+    iosOverlay.addEventListener('click', (e) => { if(e.target === iosOverlay) iosOverlay.classList.remove('open'); });
+  }
+
+  window.addEventListener('appinstalled', () => {
+    installBtn.classList.remove('show');
+    deferredPrompt = null;
+  });
+
+  // تسجيل الـ Service Worker (مطلوب لإمكانية التثبيت على أندرويد)
+  if('serviceWorker' in navigator){
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('sw.js').catch(() => {});
+    });
+  }
 })();
 </script>
 
