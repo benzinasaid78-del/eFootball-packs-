@@ -198,11 +198,12 @@
   .modal h3{font-size:19px; font-weight:900; margin-bottom:18px;}
   .field{margin-bottom:16px;}
   .field label{display:block; font-size:12.5px; color: var(--grey-400); margin-bottom:7px; font-weight:700;}
-  .field input[type="text"]{
+  .field input[type="text"], .field input[type="email"]{
     width:100%; padding:12px 14px; border-radius:10px; border:1px solid rgba(255,255,255,.14);
     background: rgba(255,255,255,.04); color: var(--white); font-family:'Tajawal',sans-serif; font-size:14px;
+    direction:ltr; text-align:right;
   }
-  .field input[type="text"]:focus{outline:none; border-color: var(--cyan-400);}
+  .field input[type="text"]:focus, .field input[type="email"]:focus{outline:none; border-color: var(--cyan-400);}
   .upload-zone{
     border:1.5px dashed rgba(255,255,255,.2); border-radius:12px; padding:16px;
     text-align:center; cursor:pointer; transition: border-color .15s;
@@ -979,7 +980,17 @@
       closePwModal();
       showToast('تم تفعيل وضع الإدارة');
     } catch(err){
-      pwError.textContent = 'بيانات الدخول غير صحيحة';
+      console.error('Firebase Auth error:', err.code, err.message);
+      const messages = {
+        'auth/invalid-email': 'صيغة البريد الإلكتروني غير صحيحة',
+        'auth/user-not-found': 'لا يوجد حساب بهذا البريد — تأكد إنك أنشأته في مشروع Firebase الصحيح',
+        'auth/wrong-password': 'كلمة السر غير صحيحة',
+        'auth/invalid-credential': 'البريد أو كلمة السر غير صحيحة',
+        'auth/operation-not-allowed': 'طريقة الدخول بالبريد/كلمة السر غير مفعّلة في Firebase (فعّلها من Authentication > Sign-in method)',
+        'auth/too-many-requests': 'محاولات كثيرة فاشلة، انتظر شوي وحاول مرة ثانية',
+        'auth/network-request-failed': 'تعذّر الاتصال بالإنترنت أو بخوادم Firebase'
+      };
+      pwError.textContent = messages[err.code] || ('خطأ: ' + err.code);
       pwError.classList.add('show');
     } finally {
       pwSubmitBtn.disabled = false;
