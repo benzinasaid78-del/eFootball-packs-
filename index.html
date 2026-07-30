@@ -679,7 +679,7 @@
   const coinsCancelBtn = document.getElementById('coinsCancelBtn');
   const coinsCheckBtn = document.getElementById('coinsCheckBtn');
   const CHANCE_CIRC = 2 * Math.PI * 52;
-  let coinsCheckingPack = null;
+  let coinsCheckingPackId = null;
 
   const leakBtn = document.getElementById('leakBtn');
   const leakModalOverlay = document.getElementById('leakModalOverlay');
@@ -691,7 +691,13 @@
   const leakDescEdit = document.getElementById('leakDescEdit');
   const saveLeakDescBtn = document.getElementById('saveLeakDescBtn');
   const leakCloseBtn = document.getElementById('leakCloseBtn');
-  let leakPack = null;
+  let leakPackId = null;
+
+  // دايمًا نجيب النسخة الحيّة الحالية من الباكج من مصفوفة packs، مو نسخة قديمة محفوظة
+  // (لأن onSnapshot يستبدل packs بمصفوفة جديدة كل ما تصير أي عملية حفظ، وأي إشارة قديمة تصير "يتيمة" وتضيع تعديلاتها)
+  function getLeakPack(){
+    return leakPackId ? packs.find(p => p.id === leakPackId) : null;
+  }
 
   // أقل عدد كوينز يمنحك أي فرصة على الإطلاق
   const MIN_COINS_FOR_CHANCE = 100;
@@ -1184,7 +1190,7 @@
   });
 
   function openCoinsModal(pack){
-    coinsCheckingPack = pack;
+    coinsCheckingPackId = pack.id;
     coinsPackName.textContent = pack.name;
     coinsAmountInput.value = '';
     chanceWrap.classList.add('hidden');
@@ -1200,7 +1206,7 @@
 
   function closeCoinsModal(){
     coinsModalOverlay.classList.remove('open');
-    coinsCheckingPack = null;
+    coinsCheckingPackId = null;
   }
 
   coinsCancelBtn.addEventListener('click', closeCoinsModal);
@@ -1261,8 +1267,9 @@
   }
 
   function renderLeakCards(){
-    if(!leakPack) return;
-    const leak = ensureLeak(leakPack);
+    const pack = getLeakPack();
+    if(!pack) return;
+    const leak = ensureLeak(pack);
     leakCardsGrid.innerHTML = '';
     if(leak.cards.length === 0){
       leakCardsGrid.innerHTML = `<div class="leak-empty">لا توجد بطاقات بعد.</div>`;
@@ -1299,7 +1306,7 @@
 
   function openLeakModal(pack){
     if(!pack) return;
-    leakPack = pack;
+    leakPackId = pack.id;
     const leak = ensureLeak(pack);
     leakModalTitle.textContent = 'ثغرة: ' + pack.name;
     renderLeakCards();
@@ -1320,11 +1327,14 @@
 
   function closeLeakModal(){
     leakModalOverlay.classList.remove('open');
-    leakPack = null;
+    leakPackId = null;
   }
 
   leakBtn.addEventListener('click', () => {
-    if(coinsCheckingPack) openLeakModal(coinsCheckingPack);
+    if(coinsCheckingPackId){
+      const p = packs.find(p => p.id === coinsCheckingPackId);
+      if(p) openLeakModal(p);
+    }
   });
 
   leakCloseBtn.addEventListener('click', closeLeakModal);
@@ -1334,14 +1344,17 @@
 
   leakCardInput.addEventListener('change', async (e) => {
     const file = e.target.files[0];
-    if(!file || !leakPack) return;
-    const pack = leakPack;
+    const pack = getLeakPack();
+    if(!file || !pack) return;
     leakCardInput.value = '';
     addLeakCardBtn.disabled = true;
     addLeakCardBtn.textContent = 'جارِ رفع الصورة...';
     try{
       const url = await uploadToImgbb(file);
-      const leak = ensureLeak(pack);
+      // نعيد جلب الباكج من جديد بعد انتظار الرفع (ممكن تكون packs تحدّثت أثناء الانتظار)
+      const freshPack = getLeakPack();
+      if(!freshPack) throw new Error('تم إغلاق نافذة الثغرة قبل انتهاء الرفع');
+      const leak = ensureLeak(freshPack);
       leak.cards.push({ id: uid(), image: url, note: '' });
       await savePacks();
       renderLeakCards();
@@ -1356,10 +1369,11 @@
 
   leakCardsGrid.addEventListener('click', async (e) => {
     const btn = e.target.closest('.leak-card-del');
-    if(!btn || !leakPack) return;
+    const pack = getLeakPack();
+    if(!btn || !pack) return;
     const cardId = btn.dataset.cardId;
     if(confirm('هل تريد حذف هذه البطاقة؟')){
-      const leak = ensureLeak(leakPack);
+      const leak = ensureLeak(pack);
       leak.cards = leak.cards.filter(c => c.id !== cardId);
       await savePacks();
       renderLeakCards();
@@ -1368,8 +1382,9 @@
   });
 
   async function saveLeakCardNote(cardId, value){
-    if(!leakPack) return;
-    const leak = ensureLeak(leakPack);
+    const pack = getLeakPack();
+    if(!pack) return;
+    const leak = ensureLeak(pack);
     const card = leak.cards.find(c => c.id === cardId);
     if(!card) return;
     card.note = value.trim();
@@ -1389,8 +1404,9 @@
   });
 
   saveLeakDescBtn.addEventListener('click', async () => {
-    if(!leakPack) return;
-    const leak = ensureLeak(leakPack);
+    const pack = getLeakPack();
+    if(!pack) return;
+    const leak = ensureLeak(pack);
     leak.desc = leakDescEdit.value.trim();
     await savePacks();
     showToast('تم حفظ الوصف');
