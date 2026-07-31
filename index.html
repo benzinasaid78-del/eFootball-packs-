@@ -869,7 +869,14 @@
       close: 'إغلاق',
       checkChance: 'تحقق من النسبة',
       back: 'رجوع',
-      leakPrefix: 'ثغرة'
+      leakPrefix: 'ثغرة',
+      enterCoinsFirst: 'اكتب عدد الكوينز أولاً',
+      chanceZero: 'فرصتك 0% حاليًا — تحتاج إلى {min} كوينز على الأقل حتى تبدأ فرصتك بالظهور.',
+      chanceLow: 'الفرصة لا تزال ضعيفة، اجمع المزيد من الكوينز لتحسينها.',
+      chanceMid: 'فرصة معقولة! استمر بجمع الكوينز لتحسين حظك.',
+      chanceHigh: 'فرصة ممتازة! أنت قريب جدًا من ضمان الحصول على لاعب.',
+      chanceFull: 'فرصة شبه مؤكدة! رصيدك يكفي وأكثر لهذا الباكج.',
+      youOwn: 'تمتلك {n} كوينز في حسابك'
     },
     en: {
       loading: 'Loading',
@@ -889,7 +896,14 @@
       close: 'Close',
       checkChance: 'Check the chance',
       back: 'Back',
-      leakPrefix: 'Leak'
+      leakPrefix: 'Leak',
+      enterCoinsFirst: 'Enter your coins amount first',
+      chanceZero: 'Your chance is 0% right now — you need at least {min} coins for your chance to start appearing.',
+      chanceLow: 'The chance is still low, collect more coins to improve it.',
+      chanceMid: 'Decent chance! Keep collecting coins to improve your odds.',
+      chanceHigh: 'Excellent chance! You are very close to a guaranteed player.',
+      chanceFull: 'Near-guaranteed chance! Your balance is more than enough for this pack.',
+      youOwn: 'You own {n} coins in your account'
     },
     es: {
       loading: 'Cargando',
@@ -909,7 +923,14 @@
       close: 'Cerrar',
       checkChance: 'Comprobar probabilidad',
       back: 'Atrás',
-      leakPrefix: 'Truco'
+      leakPrefix: 'Truco',
+      enterCoinsFirst: 'Escribe primero la cantidad de monedas',
+      chanceZero: 'Tu probabilidad es del 0% ahora mismo — necesitas al menos {min} monedas para que empiece a aparecer tu probabilidad.',
+      chanceLow: 'La probabilidad sigue siendo baja, junta más monedas para mejorarla.',
+      chanceMid: '¡Probabilidad decente! Sigue juntando monedas para mejorar tu suerte.',
+      chanceHigh: '¡Probabilidad excelente! Estás muy cerca de garantizar un jugador.',
+      chanceFull: '¡Probabilidad casi segura! Tu saldo es más que suficiente para este paquete.',
+      youOwn: 'Tienes {n} monedas en tu cuenta'
     }
   };
 
@@ -936,9 +957,15 @@
 
   window.currentLang = detectInitialLanguage();
 
-  window.t = function(key){
+  window.t = function(key, vars){
     const dict = TRANSLATIONS[window.currentLang] || TRANSLATIONS.ar;
-    return dict[key] || TRANSLATIONS.ar[key] || key;
+    let str = dict[key] || TRANSLATIONS.ar[key] || key;
+    if(vars){
+      Object.keys(vars).forEach(k => {
+        str = str.replace(new RegExp('\\{' + k + '\\}', 'g'), vars[k]);
+      });
+    }
+    return str;
   };
 
   window.applyLanguage = function(lang){
@@ -1920,7 +1947,7 @@
     if(!raw){
       chanceWrap.classList.remove('hidden');
       chanceMsg.className = 'chance-msg low';
-      chanceMsg.textContent = 'اكتب عدد الكوينز أولاً';
+      chanceMsg.textContent = t('enterCoinsFirst');
       chanceDetail.textContent = '';
       return;
     }
@@ -1946,18 +1973,18 @@
     chanceMsg.className = 'chance-msg ' + level;
 
     if(owned < MIN_COINS_FOR_CHANCE){
-      chanceMsg.textContent = `فرصتك 0% حاليًا — تحتاج إلى ${MIN_COINS_FOR_CHANCE.toLocaleString('en-US')} كوينز على الأقل حتى تبدأ فرصتك بالظهور.`;
+      chanceMsg.textContent = t('chanceZero', { min: MIN_COINS_FOR_CHANCE.toLocaleString('en-US') });
     } else if(pct < 30){
-      chanceMsg.textContent = 'الفرصة لا تزال ضعيفة، اجمع المزيد من الكوينز لتحسينها.';
+      chanceMsg.textContent = t('chanceLow');
     } else if(pct < 70){
-      chanceMsg.textContent = 'فرصة معقولة! استمر بجمع الكوينز لتحسين حظك.';
+      chanceMsg.textContent = t('chanceMid');
     } else if(pct < 100){
-      chanceMsg.textContent = 'فرصة ممتازة! أنت قريب جدًا من ضمان الحصول على لاعب.';
+      chanceMsg.textContent = t('chanceHigh');
     } else {
-      chanceMsg.textContent = 'فرصة شبه مؤكدة! رصيدك يكفي وأكثر لهذا الباكج.';
+      chanceMsg.textContent = t('chanceFull');
     }
 
-    chanceDetail.textContent = `تمتلك ${owned.toLocaleString('en-US')} كوينز في حسابك`;
+    chanceDetail.textContent = t('youOwn', { n: owned.toLocaleString('en-US') });
   });
 
   coinsAmountInput.addEventListener('keydown', (e) => { if(e.key === 'Enter') coinsCheckBtn.click(); });
