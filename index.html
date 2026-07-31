@@ -152,6 +152,20 @@
     letter-spacing:.05em;
   }
 
+  /* ---------- LANGUAGE SWITCHER ---------- */
+  .lang-switcher{
+    display:inline-flex; gap:4px; margin-top:22px; padding:4px;
+    background: rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.1);
+    border-radius:999px;
+  }
+  .lang-btn{
+    border:none; background:transparent; color: var(--grey-400);
+    font-family:'Rajdhani', sans-serif; font-weight:700; font-size:12.5px;
+    letter-spacing:.05em; padding:7px 14px; border-radius:999px; cursor:pointer;
+    transition: background .15s, color .15s;
+  }
+  .lang-btn.active{background: var(--yellow-400); color:#0a1330;}
+
   /* ---------- PWA INSTALL BUTTON ---------- */
   .install-app-btn{
     display:none; align-items:center; justify-content:center; gap:8px;
@@ -529,7 +543,7 @@
       </svg>
     </div>
     <div class="loader-ball-shadow"></div>
-    <div class="loader-title">جارِ التحميل<span>...</span></div>
+    <div class="loader-title"><span data-i18n="loading">جارِ التحميل</span><span>...</span></div>
     <div class="loader-bar-track">
       <div class="loader-bar-fill" id="loaderBarFill"></div>
     </div>
@@ -545,9 +559,14 @@
     <p class="sub" id="heroSub">استعرض كل باكجات اللاعبين هنا، أضف صورك الخاصة وعدّلها بحرية. هذا موقع مستقل بتصميم خاص، غير تابع لأي شركة ألعاب رسمية.</p>
     <span class="hero-tag" id="heroTag">تصفح · أضف · عدّل</span>
     <br>
+    <div class="lang-switcher" id="langSwitcher">
+      <button class="lang-btn" data-lang="ar">AR</button>
+      <button class="lang-btn" data-lang="en">EN</button>
+      <button class="lang-btn" data-lang="es">ES</button>
+    </div>
     <button class="btn btn-primary install-app-btn" id="installAppBtn">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13"/><path d="m7 11 5 5 5-5"/><path d="M5 21h14"/></svg>
-      <span>تثبيت التطبيق</span>
+      <span data-i18n="installApp">تثبيت التطبيق</span>
     </button>
   </div>
 </header>
@@ -571,8 +590,8 @@
 
 <section class="comments-section">
   <div class="section-header">
-    <h2>آراء زوار الموقع</h2>
-    <button class="btn btn-primary admin-only hidden" id="addCommentBtn">+ إضافة تعليق</button>
+    <h2 data-i18n="commentsHeading">آراء زوار الموقع</h2>
+    <button class="btn btn-primary admin-only hidden" id="addCommentBtn" data-i18n="addComment">+ إضافة تعليق</button>
   </div>
   <div class="comments-grid" id="commentsGrid"></div>
 </section>
@@ -619,27 +638,27 @@
 <!-- iOS Install Instructions Modal -->
 <div class="modal-overlay" id="iosInstallOverlay">
   <div class="modal">
-    <h3>تثبيت التطبيق على آيفون</h3>
+    <h3 data-i18n="iosInstallTitle">تثبيت التطبيق على آيفون</h3>
     <div class="ios-install-steps">
       <div class="ios-install-step">
         <span class="num">1</span>
-        <p>افتح الموقع من متصفح <b>Safari</b> (وليس أي متصفح آخر).</p>
+        <p data-i18n-html="iosStep1">افتح الموقع من متصفح <b>Safari</b> (وليس أي متصفح آخر).</p>
       </div>
       <div class="ios-install-step">
         <span class="num">2</span>
-        <p>اضغط على أيقونة <b>المشاركة</b> (المربع وفوقه سهم) الموجودة أسفل الشاشة.</p>
+        <p data-i18n-html="iosStep2">اضغط على أيقونة <b>المشاركة</b> (المربع وفوقه سهم) الموجودة أسفل الشاشة.</p>
       </div>
       <div class="ios-install-step">
         <span class="num">3</span>
-        <p>مرّر لأسفل واختر <b>"إضافة إلى الشاشة الرئيسية"</b> (Add to Home Screen).</p>
+        <p data-i18n-html="iosStep3">مرّر لأسفل واختر <b>"إضافة إلى الشاشة الرئيسية"</b> (Add to Home Screen).</p>
       </div>
       <div class="ios-install-step">
         <span class="num">4</span>
-        <p>اضغط <b>"إضافة"</b> أعلى الشاشة، وسيظهر التطبيق كأيقونة على شاشتك الرئيسية.</p>
+        <p data-i18n-html="iosStep4">اضغط <b>"إضافة"</b> أعلى الشاشة، وسيظهر التطبيق كأيقونة على شاشتك الرئيسية.</p>
       </div>
     </div>
     <div class="modal-actions">
-      <button class="btn btn-primary" id="iosInstallCloseBtn" style="width:100%;">تمام، فهمت</button>
+      <button class="btn btn-primary" id="iosInstallCloseBtn" style="width:100%;" data-i18n="gotIt">تمام، فهمت</button>
     </div>
   </div>
 </div>
@@ -681,9 +700,9 @@
   <div class="modal coins-modal">
     <div class="coins-icon">🪙</div>
     <h3 id="coinsPackName">اسم الباكج</h3>
-    <p class="coins-question">كم عدد الكوينز الذي لديك في حسابك؟</p>
+    <p class="coins-question" data-i18n="coinsQuestion">كم عدد الكوينز الذي لديك في حسابك؟</p>
     <div class="field">
-      <input type="text" id="coinsAmountInput" inputmode="numeric" placeholder="اكتب عدد الكوينز هنا">
+      <input type="text" id="coinsAmountInput" inputmode="numeric" data-i18n-placeholder="coinsPlaceholder" placeholder="اكتب عدد الكوينز هنا">
     </div>
     <div class="chance-wrap hidden" id="chanceWrap">
       <div class="chance-ring">
@@ -693,16 +712,16 @@
         </svg>
         <div class="chance-percent">
           <span class="num" id="chancePercentNum">0%</span>
-          <span class="lbl">فرصة الحصول على لاعب</span>
+          <span class="lbl" data-i18n="chanceLabel">فرصة الحصول على لاعب</span>
         </div>
       </div>
       <div class="chance-msg" id="chanceMsg"></div>
       <div class="chance-detail" id="chanceDetail"></div>
-      <button class="btn leak-btn" id="leakBtn">🎯 احصل على الثغرة</button>
+      <button class="btn leak-btn" id="leakBtn" data-i18n="getLeak">🎯 احصل على الثغرة</button>
     </div>
     <div class="modal-actions">
-      <button class="btn btn-ghost" id="coinsCancelBtn">إغلاق</button>
-      <button class="btn btn-primary" id="coinsCheckBtn">تحقق من النسبة</button>
+      <button class="btn btn-ghost" id="coinsCancelBtn" data-i18n="close">إغلاق</button>
+      <button class="btn btn-primary" id="coinsCheckBtn" data-i18n="checkChance">تحقق من النسبة</button>
     </div>
   </div>
 </div>
@@ -711,7 +730,7 @@
 <div class="modal-overlay" id="leakModalOverlay">
   <div class="modal leak-modal">
     <div class="leak-topbar">
-      <button class="leak-back-btn" id="leakCloseBtn" aria-label="رجوع">
+      <button class="leak-back-btn" id="leakCloseBtn" aria-label="رجوع" data-i18n-aria="back">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
       </button>
       <h3 id="leakModalTitle">ثغرة الباكج</h3>
@@ -822,6 +841,143 @@
   firebase.initializeApp(firebaseConfig);
   const db = firebase.firestore();
   const auth = firebase.auth();
+</script>
+
+<script>
+(function(){
+  // ---------- نظام تعدد اللغات (i18n) ----------
+  // يغطي هذا النظام النصوص الثابتة الظاهرة للزوار (الهيدر، مودال الكوينز،
+  // مودال الثغرة، التعليقات، شاشة التثبيت). أما النصوص التي يكتبها الأدمن
+  // بنفسه (عنوان الموقع، وصف الباكجات، التعليقات...) فتبقى كما كتبها بلغة واحدة،
+  // لأنه لا توجد طريقة موثوقة لترجمتها تلقائيًا بدون خدمة ترجمة خارجية.
+  const TRANSLATIONS = {
+    ar: {
+      loading: 'جارِ التحميل',
+      installApp: 'تثبيت التطبيق',
+      commentsHeading: 'آراء زوار الموقع',
+      addComment: '+ إضافة تعليق',
+      iosInstallTitle: 'تثبيت التطبيق على آيفون',
+      iosStep1: 'افتح الموقع من متصفح <b>Safari</b> (وليس أي متصفح آخر).',
+      iosStep2: 'اضغط على أيقونة <b>المشاركة</b> (المربع وفوقه سهم) الموجودة أسفل الشاشة.',
+      iosStep3: 'مرّر لأسفل واختر <b>"إضافة إلى الشاشة الرئيسية"</b> (Add to Home Screen).',
+      iosStep4: 'اضغط <b>"إضافة"</b> أعلى الشاشة، وسيظهر التطبيق كأيقونة على شاشتك الرئيسية.',
+      gotIt: 'تمام، فهمت',
+      coinsQuestion: 'كم عدد الكوينز الذي لديك في حسابك؟',
+      coinsPlaceholder: 'اكتب عدد الكوينز هنا',
+      chanceLabel: 'فرصة الحصول على لاعب',
+      getLeak: '🎯 احصل على الثغرة',
+      close: 'إغلاق',
+      checkChance: 'تحقق من النسبة',
+      back: 'رجوع',
+      leakPrefix: 'ثغرة'
+    },
+    en: {
+      loading: 'Loading',
+      installApp: 'Install App',
+      commentsHeading: 'Visitor Reviews',
+      addComment: '+ Add Comment',
+      iosInstallTitle: 'Install the app on iPhone',
+      iosStep1: 'Open the site in <b>Safari</b> (not any other browser).',
+      iosStep2: 'Tap the <b>Share</b> icon (square with an arrow) at the bottom of the screen.',
+      iosStep3: 'Scroll down and choose <b>"Add to Home Screen"</b>.',
+      iosStep4: 'Tap <b>"Add"</b> at the top, and the app will appear as an icon on your home screen.',
+      gotIt: 'Got it',
+      coinsQuestion: 'How many coins do you have in your account?',
+      coinsPlaceholder: 'Enter your coins amount',
+      chanceLabel: 'Chance of getting a player',
+      getLeak: '🎯 Get the Leak',
+      close: 'Close',
+      checkChance: 'Check the chance',
+      back: 'Back',
+      leakPrefix: 'Leak'
+    },
+    es: {
+      loading: 'Cargando',
+      installApp: 'Instalar app',
+      commentsHeading: 'Opiniones de los visitantes',
+      addComment: '+ Añadir comentario',
+      iosInstallTitle: 'Instalar la app en iPhone',
+      iosStep1: 'Abre el sitio en <b>Safari</b> (no en otro navegador).',
+      iosStep2: 'Toca el icono de <b>Compartir</b> (cuadrado con una flecha) en la parte inferior.',
+      iosStep3: 'Desplázate hacia abajo y elige <b>"Añadir a pantalla de inicio"</b>.',
+      iosStep4: 'Toca <b>"Añadir"</b> arriba, y la app aparecerá como un icono en tu pantalla de inicio.',
+      gotIt: 'Entendido',
+      coinsQuestion: '¿Cuántas monedas tienes en tu cuenta?',
+      coinsPlaceholder: 'Escribe la cantidad de monedas',
+      chanceLabel: 'Probabilidad de conseguir un jugador',
+      getLeak: '🎯 Consigue el truco',
+      close: 'Cerrar',
+      checkChance: 'Comprobar probabilidad',
+      back: 'Atrás',
+      leakPrefix: 'Truco'
+    }
+  };
+
+  const SUPPORTED = ['ar', 'en', 'es'];
+  const LANG_KEY = 'site_lang';
+
+  function detectInitialLanguage(){
+    try{
+      const saved = localStorage.getItem(LANG_KEY);
+      if(saved && SUPPORTED.includes(saved)) return saved;
+    } catch(e){}
+
+    const browserLangs = navigator.languages && navigator.languages.length
+      ? navigator.languages
+      : [navigator.language || 'ar'];
+
+    for(const raw of browserLangs){
+      const prefix = (raw || '').slice(0, 2).toLowerCase();
+      if(SUPPORTED.includes(prefix)) return prefix;
+    }
+    // اللغة الافتراضية للزوار غير المتعرف على لغتهم (الجمهور الأساسي عربي)
+    return 'ar';
+  }
+
+  window.currentLang = detectInitialLanguage();
+
+  window.t = function(key){
+    const dict = TRANSLATIONS[window.currentLang] || TRANSLATIONS.ar;
+    return dict[key] || TRANSLATIONS.ar[key] || key;
+  };
+
+  window.applyLanguage = function(lang){
+    if(!SUPPORTED.includes(lang)) lang = 'ar';
+    window.currentLang = lang;
+    try{ localStorage.setItem(LANG_KEY, lang); } catch(e){}
+
+    document.documentElement.lang = lang;
+    document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      el.textContent = window.t(el.dataset.i18n);
+    });
+    document.querySelectorAll('[data-i18n-html]').forEach(el => {
+      el.innerHTML = window.t(el.dataset.i18nHtml);
+    });
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+      el.placeholder = window.t(el.dataset.i18nPlaceholder);
+    });
+    document.querySelectorAll('[data-i18n-aria]').forEach(el => {
+      el.setAttribute('aria-label', window.t(el.dataset.i18nAria));
+    });
+
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.lang === lang);
+    });
+
+    // إعادة رسم أي عناصر ديناميكية تعتمد على اللغة (مثل عنوان مودال الثغرة الحالي)
+    if(window.refreshLangDependentUI) window.refreshLangDependentUI();
+  };
+
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('.lang-btn');
+    if(!btn) return;
+    window.applyLanguage(btn.dataset.lang);
+  });
+
+  window.applyLanguage(window.currentLang);
+})();
 </script>
 
 <script>
@@ -999,6 +1155,13 @@
   function getLeakPack(){
     return leakPackId ? packs.find(p => p.id === leakPackId) : null;
   }
+
+  window.refreshLangDependentUI = function(){
+    const openPack = getLeakPack();
+    if(openPack && leakModalOverlay.classList.contains('open')){
+      leakModalTitle.textContent = t('leakPrefix') + ': ' + openPack.name;
+    }
+  };
 
   // أقل عدد كوينز يمنحك أي فرصة على الإطلاق
   const MIN_COINS_FOR_CHANCE = 100;
@@ -1848,7 +2011,7 @@
     if(!pack) return;
     leakPackId = pack.id;
     const leak = ensureLeak(pack);
-    leakModalTitle.textContent = 'ثغرة: ' + pack.name;
+    leakModalTitle.textContent = t('leakPrefix') + ': ' + pack.name;
     renderLeakCards();
     addLeakCardBtn.classList.toggle('hidden', !adminMode);
     if(adminMode){
