@@ -86,6 +86,21 @@
     margin-top:16px; color: var(--grey-400); font-size:16px;
     max-width:520px; margin-inline:auto; line-height:1.9;
   }
+  /* ---------- شاشة تحميل أولية (تمنع ظهور بيانات قديمة/افتراضية لمدة لحظة) ---------- */
+  #appLoader{
+    position:fixed; inset:0; z-index:99999;
+    background: radial-gradient(ellipse at top, #0d1a3f 0%, var(--navy-950) 55%);
+    display:flex; align-items:center; justify-content:center; flex-direction:column; gap:16px;
+    transition: opacity .35s ease, visibility .35s ease;
+  }
+  #appLoader.hide{ opacity:0; visibility:hidden; pointer-events:none; }
+  .app-loader-spinner{
+    width:44px; height:44px; border-radius:50%;
+    border:3px solid rgba(63,208,255,.2); border-top-color: var(--cyan-400);
+    animation: appLoaderSpin .8s linear infinite;
+  }
+  @keyframes appLoaderSpin{ to{ transform:rotate(360deg); } }
+
   .hero-tag{
     display:inline-block; margin-top:24px; padding:8px 20px;
     border:1px solid rgba(255,212,0,.4); border-radius:999px;
@@ -455,6 +470,11 @@
 </style>
 </head>
 <body>
+
+<div id="appLoader">
+  <div class="app-loader-spinner"></div>
+</div>
+
 
 <header class="hero">
   <div class="hero-inner">
@@ -1875,9 +1895,16 @@
     showToast('تم حفظ الوصف');
   });
 
-  loadTexts();
-  loadPacks();
-  loadComments();
+  Promise.all([loadTexts(), loadPacks(), loadComments()]).finally(() => {
+    const loader = document.getElementById('appLoader');
+    if(loader) loader.classList.add('hide');
+  });
+
+  // أمان: لا تبقي شاشة التحميل ظاهرة للأبد لو تأخر الاتصال بالإنترنت
+  setTimeout(() => {
+    const loader = document.getElementById('appLoader');
+    if(loader) loader.classList.add('hide');
+  }, 7000);
 })();
 </script>
 
